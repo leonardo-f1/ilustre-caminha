@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Definindo o modelo para Membros_Clube
+model Membros_Clube {
+  Membros_ID Int    @id @default(autoincrement())
+  Nome       String
+  Funcao     String
+  Foto       Bytes?
+}
+
+// Definindo o modelo para Jogadores
+model Jogadores {
+  Jogadores_ID Int    @id @default(autoincrement())
+  Nome         String
+  Foto         Bytes?
+
+  // Definindo a relação inversa com Estatisticas_Jogadores
+  Estatisticas Estatisticas_Jogadores[]
+}
+
+// Definindo o modelo para Estatísticas dos Jogadores
+model Estatisticas_Jogadores {
+  Estatisticas_ID  Int      @id @default(autoincrement())
+  Jogadores_ID     Int
+  Carreira         String?
+  Nome             String?
+  Pe_Preferencial  String?
+  Data_Nascimento DateTime?
+  Local_Nascimento String?
+  Foto             Bytes?
+  Posicao          String?
+
+  // Relacionamento com Jogadores
+  Jogadores Jogadores @relation(fields: [Jogadores_ID], references: [Jogadores_ID])
+}
+
+// Definindo o modelo para Noticias
+model Noticias {
+  Noticias_ID Int    @id @default(autoincrement())
+  Titulo      String
+  Conteudo    String
+  Imagem      Bytes?
+}
+
+// Definindo o modelo para Utilizadores
+model Utilizadores {
+  Utilizador_ID Int    @id @default(autoincrement())
+  Nome          String
+  Email         String  @unique
+  Senha_Hash    String
+  Nivel_Acesso  String
+}
+
+// Definindo o modelo para Galeria
+model Galeria {
+  Galeria_ID Int    @id @default(autoincrement())
+  Fotos      Bytes?
+}
+
+// Definindo o modelo para Tabela_classificacao
+model Tabela_classificacao {
+  Classificacao_ID Int    @id @default(autoincrement())
+  Nome             String
+  Imagem           Bytes?
+}
